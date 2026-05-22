@@ -1,4 +1,4 @@
-###🗺️ Eminelim Pansiyon & Gözleme Evi – Salda Gölü
+##🗺️ Eminelim Pansiyon & Gözleme Evi – Salda Gölü
 
 Salda Gölü kıyısında yer alan **Eminelim Pansiyon & Gözleme Evi** için özel olarak tasarlanmış ve geliştirilmiş, modern, hızlı ve mobil uyumlu (responsive) tek sayfalık (Landing Page) web sitesi.
 
