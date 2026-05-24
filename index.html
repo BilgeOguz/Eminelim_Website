@@ -43,6 +43,7 @@
     .lang-logo{
       font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:900;
       color:var(--brown);text-decoration:none;
+      flex-shrink:0;
     }
     .lang-logo em{color:var(--green);font-style:italic}
     .lang-switcher{display:flex;gap:.4rem}
@@ -76,6 +77,45 @@
     }
     nav.scrolled .nav-links a{color:var(--teal-dark);opacity:.7;text-shadow:none}
     .nav-links a:hover{opacity:1}
+
+    /* ── HAMBURGER (mobile) ── */
+    .hamburger{
+      display:none;flex-direction:column;justify-content:center;gap:5px;
+      cursor:pointer;background:none;border:none;padding:.4rem;
+      position:fixed;top:.55rem;right:1.2rem;z-index:210;
+    }
+    .hamburger span{
+      display:block;width:24px;height:2px;border-radius:2px;
+      background:#fff;transition:background .3s,transform .3s,opacity .3s;
+    }
+    .hamburger.dark span{background:var(--teal-dark)}
+    .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .hamburger.open span:nth-child(2){opacity:0}
+    .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+    /* mobile nav drawer */
+    .mobile-nav{
+      display:none;position:fixed;top:0;right:0;bottom:0;
+      width:min(280px,85vw);
+      background:rgba(247,243,232,.98);backdrop-filter:blur(16px);
+      z-index:205;padding:5rem 2rem 3rem;
+      flex-direction:column;gap:1.8rem;
+      box-shadow:-4px 0 30px rgba(0,0,0,.12);
+      transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);
+    }
+    .mobile-nav.open{transform:translateX(0)}
+    .mobile-nav a{
+      font-size:1.1rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+      text-decoration:none;color:var(--teal-dark);
+      border-bottom:1px solid rgba(26,138,138,.12);padding-bottom:.8rem;
+    }
+    .mobile-nav a:last-child{border-bottom:none}
+    .nav-overlay{
+      display:none;position:fixed;inset:0;z-index:204;
+      background:rgba(0,0,0,.25);
+    }
+    .nav-overlay.show{display:block}
+
 
     /* ── HERO ── */
     header{
@@ -196,7 +236,7 @@
     #home-page{}
 
     .food-grid{
-      display:grid;grid-template-columns:repeat(2,1fr);
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
       gap:1rem;max-width:900px;margin:0 auto 2.5rem;padding:0 1rem;
     }
     .food-card{
@@ -214,6 +254,96 @@
       color:#fff;padding:.75rem .9rem .65rem;
       font-size:.92rem;font-weight:700;letter-spacing:.04em;
     }
+
+    /* ── LIGHTBOX ── */
+    .lightbox{
+      display:none;position:fixed;inset:0;z-index:500;
+      background:rgba(0,0,0,.92);
+      align-items:center;justify-content:center;
+      padding:1rem;cursor:zoom-out;
+    }
+    .lightbox.active{display:flex;animation:lbIn .2s ease}
+    .lightbox-img{
+      max-width:min(94vw,1000px);max-height:90svh;
+      object-fit:contain;border-radius:.75rem;
+      box-shadow:0 20px 80px rgba(0,0,0,.6);
+      animation:lbScale .25s cubic-bezier(.34,1.56,.64,1);
+    }
+    .lightbox-close{
+      position:absolute;top:1rem;right:1.2rem;
+      background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);
+      color:#fff;border-radius:50%;width:2.6rem;height:2.6rem;
+      font-size:1.4rem;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;
+      transition:background .2s;
+    }
+    .lightbox-close:hover{background:rgba(255,255,255,.28)}
+    @keyframes lbIn{from{opacity:0}to{opacity:1}}
+    @keyframes lbScale{from{transform:scale(.88);opacity:0}to{transform:scale(1);opacity:1}}
+
+    /* ── ORGANIC BANNER ── */
+    .organic-banner{
+      background:linear-gradient(135deg,#1a3d1a 0%,var(--green) 60%,#3a7a3a 100%);
+      padding:2rem 1.5rem;text-align:center;position:relative;overflow:hidden;
+    }
+    .organic-banner::before,.organic-banner::after{
+      content:'🌿';position:absolute;top:50%;transform:translateY(-50%);
+      font-size:4rem;opacity:.1;
+    }
+    .organic-banner::before{left:4%}
+    .organic-banner::after{right:4%;transform:translateY(-50%) scaleX(-1)}
+    .organic-inner{position:relative;max-width:600px;margin:0 auto}
+    .organic-dot{
+      display:inline-flex;align-items:center;gap:.5rem;
+      background:rgba(255,255,255,.14);color:rgba(255,255,255,.92);
+      font-size:.65rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+      padding:.32rem 1rem;border-radius:999px;border:1px solid rgba(255,255,255,.2);
+      margin-bottom:.75rem;
+    }
+    .organic-dot-pip{width:7px;height:7px;border-radius:50%;background:#7ec87e;flex-shrink:0}
+    .organic-text-p{font-size:.97rem;line-height:1.75;color:rgba(255,255,255,.88);font-weight:300}
+
+    /* ── FAVOURITES SECTION ── */
+    #favourites{background:#fff;padding:4rem 1.5rem 3rem}
+    #favourites .sec-label{color:var(--gold)}
+    #favourites h2{color:var(--brown)}
+    .fav-grid{
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+      gap:1rem;max-width:900px;margin:0 auto;
+    }
+    .fav-card{
+      border-radius:1.2rem;overflow:hidden;position:relative;
+      background:var(--sand);aspect-ratio:4/3;
+      box-shadow:0 3px 20px rgba(0,0,0,.12);
+      transition:transform .25s,box-shadow .25s;cursor:zoom-in;
+    }
+    .fav-card:hover{transform:translateY(-4px) scale(1.02);box-shadow:0 12px 36px rgba(0,0,0,.18)}
+    .fav-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
+    .fav-card:hover img{transform:scale(1.06)}
+    .fav-card-label{
+      position:absolute;bottom:0;left:0;right:0;
+      background:linear-gradient(transparent,rgba(15,40,15,.85));
+      color:#fff;padding:.9rem 1rem .75rem;
+    }
+    .fav-card-name{font-size:1rem;font-weight:700;letter-spacing:.04em}
+    .fav-card-price{margin-top:.2rem;font-size:.8rem;color:rgba(255,255,255,.72)}
+    .fav-badge{
+      position:absolute;top:.7rem;right:.7rem;
+      background:#f5d97a;color:var(--brown);
+      font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+      padding:.28rem .65rem;border-radius:999px;
+    }
+
+    /* ── MENU PRICE ── */
+    .menu-row-price{
+      font-weight:700;color:var(--teal-dark);font-size:.95rem;
+      white-space:nowrap;margin-left:.8rem;flex-shrink:0;
+    }
+    .menu-price-note{
+      font-size:.82rem;color:var(--teal);opacity:.65;
+      margin-bottom:1.8rem;font-style:italic;text-align:center;
+    }
+
 
     /* ── LAVENDER SECTION ── */
     #lavender{background:var(--lav-light);padding:5rem 1.5rem}
@@ -441,9 +571,21 @@
       .lav-photos .lp-left,.lav-photos .lp-right{border-radius:1rem}
     }
     #salda-page{display:none}
+
+    @media(max-width:768px){
+      .nav-links{display:none}
+      .hamburger{display:flex}
+      .mobile-nav{display:flex}
+    }
   </style>
 </head>
 <body>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';">&times;</button>
+  <img class="lightbox-img" id="lightbox-img" src="" alt="">
+</div>
 
 <!-- LANGUAGE BAR -->
 <div class="lang-bar">
@@ -453,6 +595,23 @@
     <button class="lang-btn" onclick="setLang('en')">EN</button>
     <button class="lang-btn" onclick="setLang('de')">DE</button>
   </div>
+</div>
+
+<!-- HAMBURGER -->
+<button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menü">
+  <span></span><span></span><span></span>
+</button>
+
+<!-- MOBILE NAV OVERLAY -->
+<div class="nav-overlay" id="nav-overlay" onclick="closeMobileNav()"></div>
+
+<!-- MOBILE NAV DRAWER -->
+<div class="mobile-nav" id="mobile-nav">
+  <a href="#gozleme" onclick="closeMobileNav()" data-i18n="nav_menu">Menü</a>
+  <a href="#lavender" onclick="closeMobileNav()" data-i18n="nav_lav">Lavanta</a>
+  <a href="#pansiyon" onclick="closeMobileNav()" data-i18n="nav_stay">Konaklama</a>
+  <a href="javascript:void(0)" onclick="closeMobileNav();openSalda()" data-i18n="nav_salda">Salda Gölü</a>
+  <a href="#contact" onclick="closeMobileNav()" data-i18n="nav_contact">İletişim</a>
 </div>
 
 <!-- NAV -->
@@ -519,21 +678,81 @@
   </div>
 </div>
 
+<!-- ORGANIC BANNER -->
+<div class="organic-banner">
+  <div class="organic-inner">
+    <div class="organic-dot"><span class="organic-dot-pip"></span> <span data-i18n="organic_label">Bahçemizden Sofranıza</span></div>
+    <p class="organic-text-p" data-i18n="organic_text">Tüm malzemelerimiz organik. Domates, biber, patlıcan, otlar ve daha fazlası — hepsi kendi bahçemizden, sizin için taze toplanıyor.</p>
+  </div>
+</div>
+
+<!-- FAVOURITES SECTION -->
+<section id="favourites">
+  <div class="sec-wrap reveal" style="padding-bottom:1.5rem">
+    <p class="sec-label" data-i18n="fav_label">Misafir Favorileri</p>
+    <h2 data-i18n="fav_h2">En Çok Sevilenler</h2>
+    <p class="sec-sub" data-i18n="fav_sub">Misafirlerimizin defalarca sipariş ettiği, en çok sevilen gözlemelerimiz.</p>
+  </div>
+  <div class="fav-grid reveal">
+    <div class="fav-card" onclick="openLightbox(this.querySelector('img'))">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAFMgRO54nmO8nCovchI6CFq3SPezuLQWHylo6pUfM3VPwyM6q0VbDmuVsFCQNB7wCF2UdInsf2g8su9F6iu5F9ILk6AW3sElsrGR-UF3Kxu0t5honmdRQinrKegq19aDLj9J94n=s680-w680-h510-rw" alt="Tahin Şeker Gözleme" loading="lazy">
+      <span class="fav-badge">⭐ Favori</span>
+      <div class="fav-card-label">
+        <div class="fav-card-name" data-i18n="ms6">Tahin ~ Şeker</div>
+        <div class="fav-card-price">200 ₺</div>
+      </div>
+    </div>
+    <div class="fav-card" onclick="openLightbox(this.querySelector('img'))">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAEPxODVMeEP-d0hEQtMIX3MJbdGJI9gOaLrYR_cTnWpHapP_Nz0eqygmi9duXofdqh3UtR1ov-xuWctJUEePpHdNtNPSSzl7VBjD2qb0ooUKMjypIf2EYhBbVDR-d7-quid2Ro=s680-w680-h510-rw" alt="Patlıcan Kaşar Gözleme" loading="lazy">
+      <span class="fav-badge">⭐ Favori</span>
+      <div class="fav-card-label">
+        <div class="fav-card-name" data-i18n="m8">Patlıcan ~ Kaşar</div>
+        <div class="fav-card-price">150 ₺</div>
+      </div>
+    </div>
+    <div class="fav-card" onclick="openLightbox(this.querySelector('img'))">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAFscpqqrOOvx0pVWPuB7qQ3xQhsUnzY6GUcGhsO5mYXZA4VBtQUfsqNGXRTDVH_xzLdk512iskrYk9zbo4aHfm5YGXF6SzZu_xRptuAgKBItkI-aRWly1plWcdO7WoOSCurFNYy=s680-w680-h510-rw" alt="Ot Lor Gözleme" loading="lazy">
+      <span class="fav-badge">⭐ Favori</span>
+      <div class="fav-card-label">
+        <div class="fav-card-name" data-i18n="m3">Ot ~ Lor</div>
+        <div class="fav-card-price">150 ₺</div>
+      </div>
+    </div>
+    <div class="fav-card" onclick="openLightbox(this.querySelector('img'))">
+      <img src="https://a0.muscache.com/im/pictures/22e97c7a-899f-4c92-b8de-2e06ec28711d.jpg?im_w=720" alt="Kıyma Kaşar Gözleme" loading="lazy">
+      <span class="fav-badge">⭐ Favori</span>
+      <div class="fav-card-label">
+        <div class="fav-card-name" data-i18n="m14">Kıyma ~ Kaşar</div>
+        <div class="fav-card-price">250 ₺</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- GOZLEME TEASER (home page) -->
 <div id="gozleme">
   <div class="sec-wrap reveal">
     <p class="sec-label" data-i18n="menu_label">Ne pişirelim?</p>
     <h2 data-i18n="menu_h2">Gözleme Çeşitleri</h2>
+    <p class="sec-sub" data-i18n="menu_sub">El açması, taze malzeme, ocak başından tabağınıza. Tam menüyü görmek için tıklayın.</p>
   </div>
 
   <div class="food-grid reveal">
-    <div class="food-card">
+    <div class="food-card" onclick="openLightbox(this.querySelector('img'))">
       <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAFMgRO54nmO8nCovchI6CFq3SPezuLQWHylo6pUfM3VPwyM6q0VbDmuVsFCQNB7wCF2UdInsf2g8su9F6iu5F9ILk6AW3sElsrGR-UF3Kxu0t5honmdRQinrKegq19aDLj9J94n=s680-w680-h510-rw" alt="Gözleme yapımı" loading="lazy">
       <div class="food-label" data-i18n="fc1">El Açması Gözleme</div>
     </div>
-    <div class="food-card">
+    <div class="food-card" onclick="openLightbox(this.querySelector('img'))">
       <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAFscpqqrOOvx0pVWPuB7qQ3xQhsUnzY6GUcGhsO5mYXZA4VBtQUfsqNGXRTDVH_xzLdk512iskrYk9zbo4aHfm5YGXF6SzZu_xRptuAgKBItkI-aRWly1plWcdO7WoOSCurFNYy=s680-w680-h510-rw" alt="Gözleme servisi" loading="lazy">
-      <div class="food-label">Ocak başından tabağınıza</div>
+      <div class="food-label" data-i18n="fc2">Ispanak ~ Lor</div>
+    </div>
+    <div class="food-card" onclick="openLightbox(this.querySelector('img'))">
+      <img src="https://a0.muscache.com/im/pictures/22e97c7a-899f-4c92-b8de-2e06ec28711d.jpg?im_w=720" alt="Kaşarlı gözleme" loading="lazy">
+      <div class="food-label" data-i18n="fc3">Kaşarlı Gözleme</div>
+    </div>
+    <div class="food-card" onclick="openLightbox(this.querySelector('img'))">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAEPxODVMeEP-d0hEQtMIX3MJbdGJI9gOaLrYR_cTnWpHapP_Nz0eqygmi9duXofdqh3UtR1ov-xuWctJUEePpHdNtNPSSzl7VBjD2qb0ooUKMjypIf2EYhBbVDR-d7-quid2Ro=s680-w680-h510-rw" alt="Taze gözleme" loading="lazy">
+      <div class="food-label" data-i18n="fc4">Patates ~ Kaşar</div>
     </div>
   </div>
 
@@ -544,17 +763,22 @@
 
 <!-- GALLERY -->
 <section id="gallery">
-  <div class="gallery-grid reveal">
-    <div class="g-img g-big">
+  <div class="sec-wrap reveal" style="padding-top:2rem">
+    <p class="sec-label" data-i18n="gallery_label">Eminelim'den</p>
+    <h2 data-i18n="gallery_h2">Yer ve İnsanlar</h2>
+    <p class="sec-sub" data-i18n="gallery_sub">Sizlere ev sahipliği yapmaktan mutluluk duyuyoruz.</p>
+  </div>
+  <div class="gallery-grid reveal" style="padding:0 1rem;max-width:900px;margin:0 auto 2rem">
+    <div class="g-img g-big" onclick="openLightbox(this.querySelector('img'))" style="cursor:zoom-in">
       <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAGYl9_6mc9f_8PrkjejqIkM_QQ0_6HKmmKY9ZRYzDTJC6dA1uD2As7DkepD7Lyva2OjXAC6OwFX15glFms-QS-CEoYd4K5YqpRME7U0373-qQqS02oiAFn73UHlV_trm1DJgr62Vg=s680-w680-h510-rw" alt="Eminelim bahçe" loading="lazy">
     </div>
-    <div class="g-img">
+    <div class="g-img" onclick="openLightbox(this.querySelector('img'))" style="cursor:zoom-in">
       <img src="https://a0.muscache.com/im/pictures/e4da7c07-8039-496e-bdaf-20a18d693de4.jpg?im_w=720" alt="Eminelim iç mekan" loading="lazy">
     </div>
-    <div class="g-img">
+    <div class="g-img" onclick="openLightbox(this.querySelector('img'))" style="cursor:zoom-in">
       <img src="https://a0.muscache.com/im/pictures/22e97c7a-899f-4c92-b8de-2e06ec28711d.jpg?im_w=720" alt="Eminelim oda" loading="lazy">
     </div>
-    <div class="g-img g-wide">
+    <div class="g-img g-wide" onclick="openLightbox(this.querySelector('img'))" style="cursor:zoom-in">
       <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAEPxODVMeEP-d0hEQtMIX3MJbdGJI9gOaLrYR_cTnWpHapP_Nz0eqygmi9duXofdqh3UtR1ov-xuWctJUEePpHdNtNPSSzl7VBjD2qb0ooUKMjypIf2EYhBbVDR-d7-quid2Ro=s680-w680-h510-rw" alt="Taze gözleme" loading="lazy">
     </div>
   </div>
@@ -644,7 +868,7 @@
       </div>
       <div class="amenity">
         <div class="amenity-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-        <span data-i18n="am_guests">2 Oda</span>
+        <span data-i18n="am_guests">Maks. 3 Kişi</span>
       </div>
     </div>
     <a href="https://www.airbnb.com.tr/rooms/43675394" target="_blank" rel="noopener" class="airbnb-btn reveal d1" data-i18n="airbnb_btn">
@@ -790,39 +1014,83 @@
     <div class="menu-page-sub" data-i18n="mp_sub">El açması · Taze malzeme · Ocak başından tabağınıza</div>
   </div>
   <div class="menu-body">
+    <p class="menu-price-note">Fiyatlar Türk Lirası (₺) cinsinden olup KDV dahildir.</p>
     <div class="menu-category">
       <div class="mc-title" data-i18n="cat_salty">Tuzlu Gözlemeler</div>
-      <div class="menu-row"><span class="menu-row-name" data-i18n="m1">Patates ~ Kaşar</span></div>
-      <div class="menu-row"><span class="menu-row-name" data-i18n="m2">Ispanak ~ Lor</span></div>
-      <div class="menu-row"><span class="menu-row-name" data-i18n="m3">Ot ~ Lor</span></div>
-      <div class="menu-row"><span class="menu-row-name" data-i18n="m4">Yumurtalı</span></div>
-      <div class="menu-row"><span class="menu-row-name" data-i18n="m5">Kaşarlı ~ Lor</span></div>
-      <div class="menu-row"><span class="menu-row-name" data-i18n="m6">Çorba</span></div>
-      <div class="menu-row"><span class="menu-row-name" data-i18n="m7">Sıkma</span></div>
-      <div class="menu-row"><span class="menu-row-name" data-i18n="m8">Patlıcan ~ Kaşar</span></div>
-      <div class="menu-row"><span class="menu-row-name" data-i18n="m9">Yumurta ~ Kaşar</span></div>
-      <div class="menu-row"><span class="menu-row-name" data-i18n="m10">Sucuk ~ Kaşar</span></div>
-      <div class="menu-row"><span class="menu-row-name" data-i18n="m11">Domatesli</span></div>
-      <div class="menu-row"><span class="menu-row-name" data-i18n="m12">Yumurtalı ~ Sucuklu</span></div>
-      <div class="menu-row"><span class="menu-row-name" data-i18n="m13">Yoğurtlu</span></div>
-      <div class="menu-row"><span class="menu-row-name" data-i18n="m14">Kıyma ~ Kaşar</span></div>
-      <div class="menu-row"><span class="menu-row-name" data-i18n="m15">Salçalı</span></div>
-      <div class="menu-row"><span class="menu-row-name" data-i18n="m16">Cevizli</span></div>
-      <div class="menu-row"><span class="menu-row-name" data-i18n="m17">Sade Ispanak</span></div>
+      <div class="menu-row"><span class="menu-row-name" data-i18n="m1">Patates ~ Kaşar</span><span class="menu-row-price">150 ₺</span></div>
+      <div class="menu-row"><span class="menu-row-name" data-i18n="m2">Ispanak ~ Lor</span><span class="menu-row-price">150 ₺</span></div>
+      <div class="menu-row"><span class="menu-row-name" data-i18n="m3">Ot ~ Lor</span><span class="menu-row-price">150 ₺</span></div>
+      <div class="menu-row"><span class="menu-row-name" data-i18n="m4">Yumurtalı</span><span class="menu-row-price">150 ₺</span></div>
+      <div class="menu-row"><span class="menu-row-name" data-i18n="m5">Kaşarlı ~ Lor</span><span class="menu-row-price">150 ₺</span></div>
+      <div class="menu-row"><span class="menu-row-name" data-i18n="m6">Çorba</span><span class="menu-row-price">150 ₺</span></div>
+      <div class="menu-row"><span class="menu-row-name" data-i18n="m7">Sıkma</span><span class="menu-row-price">150 ₺</span></div>
+      <div class="menu-row"><span class="menu-row-name" data-i18n="m8">Patlıcan ~ Kaşar</span><span class="menu-row-price">150 ₺</span></div>
+      <div class="menu-row"><span class="menu-row-name" data-i18n="m9">Yumurta ~ Kaşar</span><span class="menu-row-price">150 ₺</span></div>
+      <div class="menu-row"><span class="menu-row-name" data-i18n="m10">Sucuk ~ Kaşar</span><span class="menu-row-price">250 ₺</span></div>
+      <div class="menu-row"><span class="menu-row-name" data-i18n="m11">Domatesli</span><span class="menu-row-price">150 ₺</span></div>
+      <div class="menu-row"><span class="menu-row-name" data-i18n="m12">Yumurtalı ~ Sucuklu</span><span class="menu-row-price">150 ₺</span></div>
+      <div class="menu-row"><span class="menu-row-name" data-i18n="m13">Yoğurtlu</span><span class="menu-row-price">150 ₺</span></div>
+      <div class="menu-row"><span class="menu-row-name" data-i18n="m14">Kıyma ~ Kaşar</span><span class="menu-row-price">250 ₺</span></div>
+      <div class="menu-row"><span class="menu-row-name" data-i18n="m15">Salçalı</span><span class="menu-row-price">150 ₺</span></div>
+      <div class="menu-row"><span class="menu-row-name" data-i18n="m16">Cevizli</span><span class="menu-row-price">150 ₺</span></div>
+      <div class="menu-row"><span class="menu-row-name" data-i18n="m17">Sade Ispanak</span><span class="menu-row-price">150 ₺</span></div>
     </div>
     <div class="menu-category">
       <div class="mc-title" data-i18n="cat_sweet">Tatlı Gözlemeler</div>
-      <div class="menu-row"><span class="menu-row-name" data-i18n="ms1">Şekerli</span></div>
-      <div class="menu-row"><span class="menu-row-name" data-i18n="ms2">Limonlu</span></div>
-      <div class="menu-row"><span class="menu-row-name" data-i18n="ms3">Kabaklı</span></div>
-      <div class="menu-row"><span class="menu-row-name" data-i18n="ms4">Ballı</span></div>
-      <div class="menu-row"><span class="menu-row-name" data-i18n="ms5">Çikolata</span></div>
-      <div class="menu-row"><span class="menu-row-name" data-i18n="ms6">Tahin ~ Şeker</span></div>
+      <div class="menu-row"><span class="menu-row-name" data-i18n="ms1">Şekerli</span><span class="menu-row-price">150 ₺</span></div>
+      <div class="menu-row"><span class="menu-row-name" data-i18n="ms2">Limonlu</span><span class="menu-row-price">150 ₺</span></div>
+      <div class="menu-row"><span class="menu-row-name" data-i18n="ms3">Kabaklı</span><span class="menu-row-price">150 ₺</span></div>
+      <div class="menu-row"><span class="menu-row-name" data-i18n="ms4">Ballı</span><span class="menu-row-price">150 ₺</span></div>
+      <div class="menu-row"><span class="menu-row-name" data-i18n="ms5">Çikolata</span><span class="menu-row-price">200 ₺</span></div>
+      <div class="menu-row"><span class="menu-row-name" data-i18n="ms6">Tahin ~ Şeker</span><span class="menu-row-price">200 ₺</span></div>
+    </div>
+    <div class="menu-category">
+      <div class="mc-title" data-i18n="cat_drinks">İçecekler</div>
+      <div class="menu-row"><span class="menu-row-name" data-i18n="d1">Ayran</span><span class="menu-row-price">70 ₺</span></div>
+      <div class="menu-row"><span class="menu-row-name" data-i18n="d2">Çay</span><span class="menu-row-price">20 ₺</span></div>
+      <div class="menu-row"><span class="menu-row-name" data-i18n="d3">Kahve</span><span class="menu-row-price">70 ₺</span></div>
     </div>
   </div>
 </div>
 
 <script>
+/* ── LIGHTBOX ── */
+function openLightbox(imgEl) {
+  const lb = document.getElementById('lightbox');
+  document.getElementById('lightbox-img').src = imgEl.src;
+  document.getElementById('lightbox-img').alt = imgEl.alt || '';
+  lb.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(e) {
+  if (e && e.target.id !== 'lightbox') return;
+  document.getElementById('lightbox').classList.remove('active');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+});
+
+/* ── HAMBURGER / MOBILE NAV ── */
+function toggleMobileNav() {
+  const mNav = document.getElementById('mobile-nav');
+  const overlay = document.getElementById('nav-overlay');
+  const btn = document.getElementById('hamburger');
+  const isOpen = mNav.classList.toggle('open');
+  btn.classList.toggle('open', isOpen);
+  overlay.classList.toggle('show', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+}
+function closeMobileNav() {
+  document.getElementById('mobile-nav').classList.remove('open');
+  document.getElementById('nav-overlay').classList.remove('show');
+  document.getElementById('hamburger').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
 /* ── MENU SLIDE ── */
 function openMenu(){
   const mp=document.getElementById('menu-page');
@@ -853,7 +1121,12 @@ function closeSalda(){
 
 /* ── NAV SCROLL ── */
 const nav=document.getElementById('nav');
-window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>60),{passive:true});
+const hbg=document.getElementById('hamburger');
+window.addEventListener('scroll',()=>{
+  const s=scrollY>60;
+  nav.classList.toggle('scrolled',s);
+  if(hbg)hbg.classList.toggle('dark',s);
+},{passive:true});
 
 /* ── SCROLL REVEAL ── */
 const io=new IntersectionObserver(entries=>{
@@ -893,59 +1166,7 @@ function setLang(l) {
   });
 }
 
-  /*de:{
-    nav_menu:'Speisekarte',nav_lav:'Lavendel',nav_stay:'Unterkunft',nav_contact:'Kontakt',
-    hero_badge:'Salda-See · Yeşilova, Burdur',
-    hero_tagline:'Pension & Gözleme-Küche',
-    hero_btn_menu:'Speisekarte',hero_btn_lav:'Lavendelprodukte',
-    hero_btn_stay:'Unterkunft',hero_btn_contact:'Kontakt',
-    scroll:'Scrollen',
-    strip1_t:'Handgemachte Gözleme',strip1_s:'23 Sorten, frische Zutaten',
-    strip2_t:'Pension',strip2_s:'Fußläufig zum See',
-    strip3_t:'Lavendelprodukte',strip3_s:'Regional, natürlich',
-    strip4_t:'Frühstücksbuffet',strip4_s:'Morgen im Garten',
-    menu_label:'Was sollen wir zubereiten?',menu_h2:'Gözleme Speisekarte',
-    menu_sub:'Handgerollt, frische Zutaten, direkt vom Herd. Klicken Sie für die vollständige Speisekarte.',
-    btn_full_menu:'Vollständige Speisekarte',
-    fc1:'Handgerollte Gözleme',fc2:'Spinat & Hüttenkäse',fc3:'Kashar-Käse',fc4:'Kartoffel & Kashar',
-    lav_label:'Die Farbe der Natur',lav_h2:'Lavendelprodukte',
-    lav_desc:'Natürliche Produkte aus Lavendel, der auf den fruchtbaren Böden rund um Burdur geerntet wird. Nehmen Sie ein Stück mit nach Hause.',
-    lp1:'Lavendelöl',lp1s:'Rein, kaltgepresst',lp2:'Lavendelseife',lp2s:'Handgemacht, natürlich',
-    lp3:'Lavendelsäckchen',lp3s:'Getrocknete Blüten',lp4:'Lavendeltee',lp4s:'Natürlich, getrocknet',
-    stay_label:'Übernachtung',stay_h2:'Pension & Apart',
-    stay_sub:'Am Dorfeingang, zu Fuß zum Salda-See. Zweistöckiges Haus mit Garten, reichhaltigem Frühstück und Gözleme-Service.',
-    am_fridge:'Kühlschrank',am_garden:'Garten',am_bfast:'Frühstücksbuffet',
-    am_lake:'Seenähe',am_park:'Parkplatz',am_guests:'Max. 3 Gäste',
-    airbnb_btn:'Bei Airbnb buchen',
-    rev_label:'Was sagen unsere Gäste?',rev_h2:'Bewertungen',
-    rev_count:'Bewertungen',rev_count2:'Rezensionen',
-    r1:'"Zufällig angehalten und so glücklich darüber! Die beste Gözleme, die ich je gegessen habe — direkt vor unseren Augen zubereitet!"',r1a:'Internationaler Reisender',
-    r2:'"Unser Gastgeber war äußerst herzlich. Die Gözleme waren fantastisch — so eine Auswahl hatten wir nicht erwartet."',r2a:'Airbnb-Gast',
-    r3:'"Ein tolles kleines Lokal — super freundliche Leute!! Die Tahin-Zucker-Kombination war eine Offenbarung."',r3a:'Wanderlog',
-    r4:'"So nah am Salda-See, sauber und friedlich. Das Frühstück war wunderbar. Şeref Bey zeigte uns echte Gastfreundschaft."',r4a:'Airbnb-Gast',
-    see_all:'Alle Bewertungen ansehen →',
-    contact_label:'Kontakt aufnehmen',contact_h2:'Kontakt',
-    ct_phone:'Telefon',ct_book:'Reservierung',ct_loc:'Standort',
-    map_label:'Wo sind wir?',map_h2:'In der Nähe des Salda-Sees',map_note:'Dorfeingang Yeşilova, Salda-See, Burdur',
-    back:'← Zurück',mp_title:'Gözleme Speisekarte',mp_sub:'Handgerollt · Frische Zutaten · Direkt vom Herd',
-    cat_salty:'Herzhafte Gözleme',cat_sweet:'Süße Gözleme',
-    m1:'Kartoffel & Kashar',m2:'Spinat & Hüttenkäse',m3:'Kräuter & Hüttenkäse',m4:'Ei',m5:'Kashar & Hüttenkäse',
-    m6:'Suppe',m7:'Sıkma (Fladenbrot)',m8:'Aubergine & Kashar',m9:'Ei & Kashar',m10:'Wurst & Kashar',
-    m11:'Tomate',m12:'Ei & Wurst',m13:'Joghurt',m14:'Hackfleisch & Kashar',
-    m15:'Tomatenmark',m16:'Walnuss',m17:'Nur Spinat',
-    ms1:'Zucker',ms2:'Zitrone',ms3:'Kürbis',ms4:'Honig',ms5:'Schokolade',ms6:'Tahin & Zucker',
-    nav_salda:'Salda-See',hero_btn_salda:'Über Salda',
-    gallery_label:'Von Eminelim',gallery_h2:'Ort & Menschen',gallery_sub:'Wir heißen Sie herzlich willkommen.',
-    sp_title:'Salda-See',sp_sub:'Die Malediven der Türkei · Yeşilova, Burdur',
-    sp_intro:'Der Salda-See ist einer der reinsten und schönsten Seen der Türkei. Mit seinen einzigartigen türkisfarbenen Gewässern und strahlend weißen Ufern, die an die Malediven erinnern, liegt dieses Naturwunder im Bezirk Yeşilova der Provinz Burdur.',
-    sf1t:'NASA-Verbindung',sf1:'Die reiche Hydromagnesit-Mineralzusammensetzung des Sees wurde von der NASA bei ihrer Erforschung des Jezero-Kraters auf dem Mars als Referenz herangezogen.',
-    sf2t:'Weiße Ufer',sf2:'Die weiße Farbe am Ufer kommt nicht von Sand, sondern von Hydromagnesit-Felsformationen unter Wasser. Dieses Mineral findet sich sonst nirgendwo in der Türkei.',
-    sf3t:'Schutzgebiet',sf3:'Der See und seine Umgebung stehen aufgrund ihres seltenen Ökosystems unter Naturschutz. Farbe und Klarheit des Sees werden sorgfältig bewahrt.',
-    sf4t:'Entfernung von uns',sf4:'Eminelim liegt in Gehweite des Salda-Sees. Sie können den See direkt nach dem Frühstück besuchen.',
-    sp_cta:'Unterkunft Info'
-  }
-};
-*/
+</script>
 </script>
 </body>
 </html>
